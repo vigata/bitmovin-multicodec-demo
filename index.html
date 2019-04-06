@@ -1233,28 +1233,28 @@ var bitrate_histogram = {
 
 // compute seginfo totals
 function computeSeginfoTotals() {
-    var totals = {}
-    for (var codec in seginfo) {
-                totals[codec] = {}
-                for (var bitrate in seginfo[codec] ) {
-                        totals[codec][bitrate] = {}
-                        var accum = []
-                        var total = 0
-                        for( var i=0; i<seginfo[codec][bitrate].length; i++ ) {
-                            accum.push( total + seginfo[codec][bitrate][i] )
-                            total += seginfo[codec][bitrate][i]
-                        }
+  var totals = {}
+  for (var codec in seginfo) {
+        totals[codec] = {}
+        for (var bitrate in seginfo[codec] ) {
+            totals[codec][bitrate] = {}
+            var accum = []
+            var total = 0
+            for( var i=0; i<seginfo[codec][bitrate].length; i++ ) {
+              accum.push( total + seginfo[codec][bitrate][i] )
+              total += seginfo[codec][bitrate][i]
+        }
                         //console.log(accum)
                         //console.log(total)
 
                         totals[codec][bitrate]['accum'] = accum
                         totals[codec][bitrate]['total'] = total
-                }
-    }    
+                  }
+            }    
 
 
-    return totals
-}
+            return totals
+      }
 
 totals = computeSeginfoTotals();
 console.log(totals)
@@ -1275,6 +1275,7 @@ var savingsCounter = {
       multicodec_total : 0,
       multicodec_totals : {'h264':0, 'vp9':0, 'hevc':0},
       perGBprice: 0.025,
+      useBitrateHistogram : false,
       probs : {},
       init : function() {
             this.probs['h264'] = this.computeBitrateProbs('h264')
@@ -1303,8 +1304,8 @@ var savingsCounter = {
             if (this.idx>= 52) // max segement count to analyize
                   return
 
-            var useBitrateHistogram = false
-            if(useBitrateHistogram) {
+
+            if(this.useBitrateHistogram) {
                   // h264 case
                   for( var bitrate of Object.keys(seginfo['h264']) ) {
                         let size = seginfo['h264'][bitrate][this.idx];
@@ -1458,7 +1459,11 @@ var savingsCounter = {
 
 savingsCounter.init()
 
-//savingsCounter.showClientHistChart()
+var urlParams = new URLSearchParams(window.location.search);
+if( urlParams.has('usebitratehist') && urlParams.get('usebitratehist')=='true' ) {
+      savingsCounter.useBitrateHistogram = true
+      savingsCounter.showClientHistChart()
+}
 
 
 
