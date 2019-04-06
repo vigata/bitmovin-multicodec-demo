@@ -1469,7 +1469,7 @@ if( urlParams.has('usebitratehist') && urlParams.get('usebitratehist')=='true' )
 
 // we have 2 comparison cases
 // one is all h264
-// another one is one that considers all codec solution. 
+// another one is one that considers a multi-codec solution. 
 function getSupportedCodecs() {
    let v = document.createElement("video")
     ret = {
@@ -1533,8 +1533,8 @@ const playerConfig = {
     }
 };
 const source = {
-    title: "Getting Started with the Bitmovin Player",
-    description: "Now you are ready to embed the Bitmovin Player into your own website :)",
+    title: "Bitmovin multi-codec demo",
+    description: "A realtime demonstration of bitmovin multi-codec capabilities",
     dash: getManifestURL(), 
     poster: 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/poster.jpg'
 };
