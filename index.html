@@ -1471,12 +1471,14 @@ if( urlParams.has('usebitratehist') && urlParams.get('usebitratehist')=='true' )
 // one is all h264
 // another one is one that considers a multi-codec solution. 
 function getSupportedCodecs() {
-   let v = document.createElement("video")
+      if(! ('MediaSource' in window))
+            return {mpeg4:false, h264:false, vp9:false, hevc:false }
+
     ret = {
-        mpeg4 : "" !== v.canPlayType('video/mp4; codecs="mp4v.20.8"'),
-        h264 : "" !== v.canPlayType('video/mp4;  codecs="avc1.42E01E"'),
-        vp9 : "" !==  v.canPlayType('video/webm; codecs="vp9"' ),
-        hevc : "" !== v.canPlayType('video/mp4; codecs="hvc1.1.L0.0"')
+        mpeg4 :  MediaSource.isTypeSupported('video/mp4; codecs="mp4v.20.8"'),
+        h264 :   MediaSource.isTypeSupported('video/mp4;  codecs="avc1.42E01E"'),
+        vp9 :    MediaSource.isTypeSupported('video/webm; codecs="vp9"' ),
+        hevc :  MediaSource.isTypeSupported('video/mp4; codecs="hvc1.1.L0.0"')
     }
 
     return ret
